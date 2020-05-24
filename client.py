@@ -20,12 +20,7 @@ def enter_name():
 	name= input("Please enter your name:")
 	return name
 
-def player_number(play_num):
-	if play_num ==1:
-		print("First player waiting on second")		
-	else:
-		print("Second player game can start")
-	pass
+
 
 def display_board(board):
 	print(np.flip(board,0))
@@ -47,7 +42,12 @@ state = {
     "Player":0,
     } 
 
-name = str(enter_name())
+try:
+	name = str(enter_name())
+    break
+except ValueError:
+    print("Oops!  That was no valid number.  Try again...")
+
 r = requests.post('http://127.0.0.1:5000/name/', data={'name': name})
 
 
@@ -72,7 +72,12 @@ while state["game_over"]==False:
 			#get a move and send it off
 			print("They moved")
 			print_board(state['board'])
-			move = int(input("pick a column (0-8)"))
+			try:
+				move = int(input("pick a column (0-8)"))
+        	break
+        		except ValueError:
+        			print("Oops!  That was no valid number.  Try again...")
+
 			r = requests.get('http://127.0.0.1:5000/move?column='+str(move))
 			#see if valid move cam back
 			#print out board
